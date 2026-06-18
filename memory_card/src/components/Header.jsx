@@ -1,13 +1,13 @@
 function Header() {
   return (
-    <div>
-      <div>
-        <h1>Memory Game</h1>
-        <p>
+    <div className="header-div">
+      <div className="name-rules">
+        <h1 className="title">Memory Game</h1>
+        <p className="rules">
           Click an image to gain points. But not the same image more than once!
         </p>
       </div>
-      <div>
+      <div className="scores">
         <p>Current Score: </p>
         <p>Best Score: </p>
       </div>
