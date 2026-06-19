@@ -1,16 +1,15 @@
 import Header from "./components/Header";
 import CardBoard from "./components/CardBoard";
 import { useState, useEffect } from "react";
+import { arrayShuffle } from "array-shuffle";
 import "./App.css";
 
 function App() {
-  const [fetchedPokemon, setFetchedPokemon] = useState([]);
-  const [randomizedData, setRandomizedData] = useState([]);
+  const [pokemonArray, setPokemonArray] = useState([]);
+  const [scores, setScores] = useState({ score: 0, best: 0 });
 
   useEffect(() => {
     let pokemonList = [];
-
-    let pokemon = {};
 
     try {
       fetch("https://pokeapi.co/api/v2/pokemon?limit=12")
@@ -26,21 +25,20 @@ function App() {
 
     function fetchPokemonData(pokemon) {
       let url = pokemon.url;
+      let currentPokemon = {};
 
       fetch(url)
         .then((res) => res.json())
         .then(function (data) {
-          console.log(data.id);
-          pokemon.id = data.id;
-          console.log(data.name);
-          pokemon.name = data.name;
-          console.log(data.sprites.other["official-artwork"].front_default);
-          pokemon.image = data.sprites.other["official-artwork"].front_default;
+          currentPokemon.id = data.id;
+          currentPokemon.name = data.name;
+          currentPokemon.image =
+            data.sprites.other["official-artwork"].front_default;
 
           pokemonList.push(pokemon);
         });
 
-      setFetchedPokemon(pokemonList);
+      setPokemonArray(arrayShuffle(pokemonList));
     }
   }, []);
 
