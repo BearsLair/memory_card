@@ -6,46 +6,39 @@ import "./App.css";
 
 function App() {
   const [pokemonArray, setPokemonArray] = useState([]);
+  const [clickedCards, setClickedCards] = useState([]);
   const [scores, setScores] = useState({ score: 0, best: 0 });
 
   useEffect(() => {
-    let pokemonList = [];
-
-    try {
-      fetch("https://pokeapi.co/api/v2/pokemon?limit=12")
-        .then((res) => res.json())
-        .then(function (firstPokemon) {
-          firstPokemon.results.forEach(function (pokemon) {
-            fetchPokemonData(pokemon);
-          });
-        });
-    } catch (error) {
-      console.log(error);
-    }
-
-    function fetchPokemonData(pokemon) {
-      let url = pokemon.url;
-      let currentPokemon = {};
-
-      fetch(url)
-        .then((res) => res.json())
-        .then(function (data) {
-          currentPokemon.id = data.id;
-          currentPokemon.name = data.name;
-          currentPokemon.image =
-            data.sprites.other["official-artwork"].front_default;
-
-          pokemonList.push(currentPokemon);
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=12")
+      .then((res) => res.json())
+      .then((firstPokemon) => {
+        // Array of fetched promises
+        const fetchPromises = firstPokemon.results.map((pokemon) => {
+          return fetch(pokemon.url)
+            .then((res) => res.json())
+            .then((data) => {
+              return {
+                id: data.id,
+                name: data.name,
+                image: data.sprites.other["official-artwork"].front_default,
+              };
+            });
         });
 
-      setPokemonArray(arrayShuffle(pokemonList));
-    }
+        // Wait for ALL promises to complete before shuffling array.
+        Promise.all(fetchPromises)
+          .then((completedList) => {
+            setPokemonArray(arrayShuffle(completedList));
+          })
+          .catch((err) => console.error("Error retreving details:", err));
+      });
   }, []);
 
   return (
     <>
       <Header />
-      <CardBoard />
+      <CardBoard pokemonArray={pokemonArray} />
     </>
   );
 }
