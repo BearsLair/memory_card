@@ -35,7 +35,7 @@ function App() {
           currentPokemon.image =
             data.sprites.other["official-artwork"].front_default;
 
-          pokemonList.push(pokemon);
+          pokemonList.push(currentPokemon);
         });
 
       setPokemonArray(arrayShuffle(pokemonList));
