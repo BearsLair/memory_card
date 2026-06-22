@@ -23,6 +23,7 @@
   width: 300px;
   height: 350px;
   background-color: rgb(2, 2, 109);
+  cursor: pointer;
 }
 
 .card-img {

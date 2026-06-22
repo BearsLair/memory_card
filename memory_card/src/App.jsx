@@ -9,6 +9,32 @@ function App() {
   const [clickedCards, setClickedCards] = useState([]);
   const [scores, setScores] = useState({ score: 0, best: 0 });
 
+  // At game end, reset tracked cards to empty array, update best score, and randomize cards
+  // OR continue tracking already clicked cards, update current score, randomize cards
+  const handleCardTracking = (cardId) => {
+    // 1. Check if the card was already clicked
+    if (clickedCards.includes(cardId)) {
+      // User lost: Reset game
+      setScores((prev) => ({
+        ...prev,
+        score: 0,
+        best: prev.score > prev.best ? prev.score : prev.best,
+      }));
+      setClickedCards([]);
+    } else {
+      // User guessed right: Update score and add ID
+      setScores((prev) => ({
+        ...prev,
+        score: prev.score + 1,
+      }));
+      setClickedCards((prev) => [...prev, cardId]);
+    }
+
+    // 2. Shuffle cards on every click (regardless of win/loss)
+    setPokemonArray((prev) => arrayShuffle(prev));
+  };
+
+  // Fetch cards from server on page load
   useEffect(() => {
     fetch("https://pokeapi.co/api/v2/pokemon?limit=12")
       .then((res) => res.json())
@@ -37,8 +63,11 @@ function App() {
 
   return (
     <>
-      <Header />
-      <CardBoard pokemonArray={pokemonArray} />
+      <Header scores={scores} />
+      <CardBoard
+        pokemonArray={pokemonArray}
+        handleCardTracking={handleCardTracking}
+      />
     </>
   );
 }

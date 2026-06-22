@@ -1,7 +1,6 @@
 import Card from "./Card";
 
-function CardBoard({ pokemonArray }) {
-  console.log("pokemonArray", pokemonArray);
+function CardBoard({ pokemonArray, handleCardTracking }) {
   return (
     <div className="gameboard-grid">
       {pokemonArray.map((pokemon) => {
@@ -11,6 +10,7 @@ function CardBoard({ pokemonArray }) {
             id={pokemon.id}
             image={pokemon.image}
             name={pokemon.name}
+            handleClick={handleCardTracking}
           />
         );
       })}

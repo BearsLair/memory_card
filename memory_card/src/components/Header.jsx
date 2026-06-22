@@ -1,4 +1,4 @@
-function Header() {
+function Header({ scores }) {
   return (
     <div className="header-div">
       <div className="name-rules">
@@ -8,8 +8,8 @@ function Header() {
         </p>
       </div>
       <div className="scores">
-        <p>Current Score: </p>
-        <p>Best Score: </p>
+        <p>Current Score: {scores.score}</p>
+        <p>Best Score: {scores.best} </p>
       </div>
     </div>
   );
