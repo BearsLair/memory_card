@@ -4,12 +4,52 @@
   box-sizing: border-box;
 }
 
+.header-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-bottom: 2rem;
+  background: #2a7b9b;
+  background: linear-gradient(
+    rgba(2, 2, 109, 1) 10%,
+    rgba(29, 38, 171, 1) 85%,
+    rgb(78, 84, 168) 90%,
+    rgb(230, 224, 224) 100%
+  );
+}
+
+.name-rules-div {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+}
+
+.title {
+  font-size: 5rem;
+  color: rgb(210, 209, 207);
+}
+
+.rules {
+  font-size: 1.2rem;
+  color: rgb(210, 209, 207);
+}
+
+.scores {
+  margin-right: 5px;
+}
+
+.scores > p {
+  font-size: 1.5rem;
+  color: rgb(210, 209, 207);
+}
+
 .gameboard-grid {
   display: grid;
   width: 100%;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(3, 1fr);
   height: fit-content;
+  background-color: rgb(230, 224, 224);
 }
 
 .card-div {
@@ -24,6 +64,11 @@
   height: 350px;
   background-color: rgb(2, 2, 109);
   cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card-div:hover {
+  box-shadow: 0px 0px 17px 16px #3c7cff;
 }
 
 .card-img {
